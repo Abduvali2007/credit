@@ -167,10 +167,12 @@ const Header = () => {
                       )}
                       Basket
                     </NavLink>
+
                   </li>
                 </ul>
               </div>
             </div>
+            
           </nav>
         </div>
       </div>

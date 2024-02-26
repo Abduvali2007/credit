@@ -12,6 +12,19 @@ const Basket = () => {
   let totalPrice = getPro.reduce((acc, el) => {
     return (acc += Number(el.price * el.quantity));
   }, 0);
+  const getPlus = (plus) => {
+    let plusFilter = getPro.map((el) =>
+      el.id === plus.id ? { ...el, quantity: el.quantity + 1 } : el
+    );
+    setGetPro(plusFilter);
+    localStorage.setItem("basket", JSON.stringify(plusFilter));
+  };
+  const getMinus = (plus) => {
+    let plusFilter = getPro.map((el) =>  el.id === plus.id ? { ...el, quantity: el.quantity > 1 ? el.quantity - 1 : 1 }: el
+    );
+    setGetPro(plusFilter);
+    localStorage.setItem("basket", JSON.stringify(plusFilter));
+  };
   return (
     <div id="basket">
       <div className="container">
@@ -65,9 +78,14 @@ const Basket = () => {
                       </th>
                       <td class="px-6 py-4 text-2xl">{el.name}</td>
                       <td class="px-6 py-4 text-2xl">
-                        {el.price * el.quantity+"$"}
+                        {el.price * el.quantity + "$"}
                       </td>
-                      <td class="px-6 py-4 text-2xl">{el.quantity}</td>
+                      <td class="px-6 py-4 text-2xl flex items-end gap-6">
+                        <button onClick={() => getMinus(el)}>-</button>
+
+                        {el.quantity}
+                        <button onClick={() => getPlus(el)}> +</button>
+                      </td>
                       <td class="px-6 py-4">
                         <button
                           onClick={() => del(el)}
@@ -80,7 +98,7 @@ const Basket = () => {
                     </tr>
                   </tbody>
                 ))}
-                <h1>Total price:{totalPrice}</h1>
+                <h1 className=" mt-5 fs">Total price:{totalPrice}</h1>
               </table>
             </div>
           )}
